@@ -1,0 +1,29 @@
+body {
+  font-family: "Helvetica", sans-serif;
+  color: blue;
+  margin: 2em;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:visited{
+  color: blue;
+}
+
+a:hover{
+  color: orange;
+}
+
+.nav a  {
+  padding: 0 20px;
+}
+
+li{
+  list-style: none;
+}
+
+.hidden {
+  visibility: hidden;
+}

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h1 Home Page
+  h2 Welcome back, #{hatr}. 
+  
+  ul
+    each message in messages 
+      - const words = message.body
+      - const author = message.author
+      - const date = message.created_at
+      - const id = message._id
+      if author === hatr
+        li(class="item" id=id) #{words} - #{author} - #{date} - #[a(href="/like/" + id) like] - #[a(href="/delete/" + id) delete]
+      else
+        li(class="item" id=id) #{words} - #{author} - #{date} - #[a(href="/like/" + id) like]
+
+      
+      //- li(class="item" id=id) #{words} - #{author} - #{date} - #[a(href="/like/" + id) like] 
+      //- if author === hatr
+      //-   a(href="/delete/" + id) delete
+      
+      br
+  
+  a(href="/logout") Logout
+  
+   

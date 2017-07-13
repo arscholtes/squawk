@@ -1,0 +1,13 @@
+doctype html
+head
+  title baconhatr | #{title}
+  meta(charset="utf-8")
+  link(rel="stylesheet", href="styles/styles.css")
+body
+  h1: a(href="/" class="toptitle") Baconhatr
+  hr
+  div(class="nav")
+    a(href="/login") login
+    a(href="/signup") signup
+    a(href="/message") new message
+  block content

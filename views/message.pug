@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h2 post a new message
+  
+  form(action="/message" method="post")
+    textarea(name="message" placeholder="new message")
+    input(type="submit") 
+
+    a(href="/logout") Logout
