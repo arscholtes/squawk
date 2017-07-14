@@ -1,6 +1,6 @@
 body {
   font-family: "Helvetica", sans-serif;
-  color: blue;
+  color: darkred;
   margin: 2em;
 }
 
@@ -9,7 +9,7 @@ a{
 }
 
 a:visited{
-  color: blue;
+  color: darkred;
 }
 
 a:hover{

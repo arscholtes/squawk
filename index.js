@@ -29,6 +29,6 @@ app.use('/', myRouter);
 // mongoose.createConnection('mongodb://localhost:27017/baconhatr', (err) => {
 //   if (err) return console.log(err)
   app.listen(3000, () => {
-    console.log('Baconhatr ready to h8...')
+    console.log('too infinity and beyond..')
   })
 // })
