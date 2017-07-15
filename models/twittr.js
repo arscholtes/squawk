@@ -32,6 +32,6 @@ twittrSchema.methods.compare = function(passw) {
   return bcrypt.compareSync(passw, twittr.password);
 };
 
-const twittr = mongoose.model('hatrs', twittrSchema);
+const twittr = mongoose.model('twittrs', twittrSchema);
 
 module.exports = twittr;
