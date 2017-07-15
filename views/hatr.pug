@@ -2,17 +2,15 @@ extends layout
 
 block content
 
-  
-  h2 Welcome, #{hatr.username}
-  
+
+  h2 Welcome, #{twittr.username}
+
   ul
-    each message in messages 
+    each message in messages
       - const words = message.body
       - const author = message.author
       - const date = message.created_at
       li #{words} - #{author} -  #{date}
       br
-  
+
   a(href="/logout") Logout
-        
-  

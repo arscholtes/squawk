@@ -15,7 +15,7 @@ app.use(session({
   secret: 'h8 dat bacon',
   resave: false,
   saveUninitialized: false
-}))
+}));
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -26,9 +26,6 @@ app.use(express.static('public'));
 
 app.use('/', myRouter);
 
-// mongoose.createConnection('mongodb://localhost:27017/baconhatr', (err) => {
-//   if (err) return console.log(err)
   app.listen(3000, () => {
-    console.log('too infinity and beyond..')
-  })
-// })
+    console.log('too infinity and beyond..');
+  });

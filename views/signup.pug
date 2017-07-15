@@ -2,9 +2,9 @@ extends layout
 
 block content
   h2 signup
-  
+
     form(action="/signup" method="post")
-      input(type="text" name="newUser" value="" placeholder="What's your username?")
-      input(type="password" name="newPass" value="" placeholder="What's your password?")
-        
+      input(type="text" name="newUser" value="" placeholder="Username")
+      input(type="password" name="newPass" value="" placeholder="Password")
+
       input(type="submit")

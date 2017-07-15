@@ -2,17 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const session = require('express-session');
-const hatrs = require('../models/hatr');
+const twittrs = require('../models/twittr');
 const messages = require('../models/message');
 const likes = require('../models/likes');
 
 const authenticated = function(req, res, next) { //
-  if (req.session && req.session.hatr) return next();
+  if (req.session && req.session.twittr) return next();
   return res.redirect('/login');
 };
 
 router.get('/', (req, res) => {
-  if (req.session && req.session.hatr) {
+  if (req.session && req.session.twittr) {
     messages.find({}, null, {
       sort: {
         created_at: -1
@@ -34,7 +34,7 @@ router.get('/home', authenticated, function(req, res) {
     }
   }, function(err, messages) {
     res.render('home', {
-      hatr: req.session.hatr.username,
+      hatr: req.session.twittr.username,
       messages: messages
     });
   });
@@ -49,13 +49,13 @@ router.get('/message', authenticated, function(req, res) {
 router.post('/message', authenticated, function(req, res) {
   if (!req.body || !req.body.message) {
     return res.render('error', {
-      error: "You didn't write anything",
+      error: 'You did not write anything',
       title: 'error'
     });
   }
   messages.create({
     body: req.body.message,
-    author: req.session.hatr.username
+    author: req.session.twittr.username
   }, function(err, message) {
     console.log(message);
     if (err) return res.render('error', {
@@ -90,7 +90,7 @@ router.get('/like/:id', function(req, res) {
     }
   }).then(function(partialLike) {
     partialLike.likes = [{
-      author: req.session.hatr.username,
+      author: req.session.twittr.username,
       state: true
     }];
     partialLike.save().then(function() {
@@ -100,28 +100,28 @@ router.get('/like/:id', function(req, res) {
 });
 
 router.get('/hatr', authenticated, (req, res) => {
-  console.log(req.session.hatr);
+  console.log(req.session.twittr);
   messages.find({
-    author: req.session.hatr.username
+    author: req.session.twittr.username
   }, function(err, foundMessages) {
     if (err) return res.render('error', {
-      error: "Can't find that messages",
+      error: 'Not able to find that messages',
       title: 'error'
     });
-    res.render('hatr', {
+    res.render('twittr', {
       messages: foundMessages,
-      hatr: req.session.hatr
+      hatr: req.session.twittr
     });
   });
 });
 
 router.get('/hatr/@:username', authenticated, function(req, res) {
-  hatrs.findOne({
+  twittrs.findOne({ //plural****
     username: req.params.username
   }, function(err, foundUser) {
     console.log(foundUser);
     if (err) return res.render('error', {
-      error: "Can't find that hatr",
+      error: 'Can not find that twittr',
       title: 'error'
     });
     messages.find({
@@ -129,12 +129,12 @@ router.get('/hatr/@:username', authenticated, function(req, res) {
     }, function(err, foundMessages) {
       console.log(foundMessages);
       if (err) return res.render('error', {
-        error: "Can't find that messages",
+        error: 'Can not find that messages',
         title: 'error'
       });
-      res.render('hatr', {
+      res.render('twittr', {
         messages: foundMessages,
-        hatr: req.session.hatr
+        hatr: req.session.twittr
       });
     });
   });
@@ -142,83 +142,69 @@ router.get('/hatr/@:username', authenticated, function(req, res) {
 
 router.get('/login', (req, res) => {
   res.render('login', {
-    title: "login"
+    title: 'login'
   });
 });
 
 router.get('/signup', (req, res) => {
   res.render('signup', {
-    title: "signup"
+    title: 'signup'
   });
 });
 
 router.post('/login', (req, res) => {
-  hatrs.findOne({
+  twittrs.findOne({ //this one was plural, look into that
     username: req.body.username
-  }, function(err, foundHatr) {
+  }, function(err, foundtwittr) {
     if (err) return res.render('error', {
-      error: "Something went wrong.",
-      title: "error"
+      error: 'Something went wrong.',
+      title: 'error'
     });
-    if (!foundHatr) return res.render('error', {
+    if (!foundtwittr) return res.render('error', {
       error: 'no hatr',
       title: 'error'
-    })
+    });
 
-    if (foundHatr.compare(req.body.userpass)) {
-      req.session.hatr = foundHatr;
+    if (foundtwittr.compare(req.body.userpass)) {
+      req.session.hatr = foundtwittr;
       req.session.save();
 
-      console.log('logged in as ' + req.session.hatr.username);
+      console.log('logged in as ' + req.session.twittr.username);
 
       res.redirect('/home');
     } else {
       res.render('error', {
-        error: "incorrect credentials",
+        error: 'incorrect credentials',
         title: 'error'
       });
     }
-  })
+  });
 });
 
 router.post('/signup', (req, res) => {
   if (req.body.newUser && req.body.newPass) {
-    hatrs.create({
+    twittrs.create({ //plural again
       username: req.body.newUser,
       password: req.body.newPass
-    }, function(err, newHatr) {
-      console.log(newHatr);
+    }, function(err, newtwittr) {
+      console.log(newtwittr);
       if (err) return res.render('error', {
         error: 'There was an error',
-        title: "error"
+        title: 'error'
       });
 
-      req.session.hatr = newHatr;
-      console.log(req.session.hatr);
+      req.session.hatr = newtwittr;
+      console.log(req.session.twittr);
       res.redirect('/');
-    })
+    });
 
-    //
-    //
-    //   .then(function() {
-    //     req.session.hatr =
-    //     res.redirect('/');
-    //   });
-    // } else {
-    //   {
-    //     res.render('error', {
-    //       title: "error",
-    //       error: "There was an error!"
-    //     });
-    //   }
-    // }
   }
 });
 
 router.get('/delete/:id', function(req, res) {
   messages.findByIdAndRemove(req.params.id, function(err, message) {
     const response = {
-      message: "Message successfully deleted",
+      message: 'Successfully deleted',
       id: message._id
     };
     console.log(response);
@@ -227,7 +213,7 @@ router.get('/delete/:id', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-  req.session.hatr = 0;
+  req.session.twittr = 0;
   res.redirect('/');
 });
 
